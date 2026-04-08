@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top 50 USA — Best Selling Amazon Products Today</title>
+<meta name="description" content="The 50 best-selling Amazon US products today, one expert pick per category. Updated every morning.">
+<meta property="og:title" content="Top 50 USA — Best Selling Amazon Products Today">
+<meta property="og:description" content="Daily curated Amazon US best sellers. One expert pick per category, updated every morning.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Nunito:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+
+:root{
+  --bg:#08060f;
+  --surface:#0f0b1a;
+  --card:#150f25;
+  --card-hover:#1c1530;
+  --border:#221a38;
+  --border-bright:#3a2c5a;
+  --amber:#f59e0b;
+  --amber-light:#fbbf24;
+  --red:#dc2626;
+  --red-light:#ef4444;
+  --gold:#fcd34d;
+  --text:#f5f0ff;
+  --text-dim:#9585b8;
+  --text-muted:#4a3d6a;
+  --radius:14px;
+  --H:'Barlow Condensed',sans-serif;
+  --B:'Nunito',sans-serif;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:var(--B);
+  font-size:16px;
+  line-height:1.6;
+  overflow-x:hidden;
+}
+
+/* Radial glow bg */
+.bg-layer{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 70% 50% at 15% 20%, rgba(245,158,11,0.07) 0%,transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 70%, rgba(220,38,38,0.05) 0%,transparent 55%);
+}
+
+/* Stars pattern */
+.bg-stars{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    radial-gradient(1px 1px at 10% 15%,rgba(255,255,255,0.15) 0%,transparent 100%),
+    radial-gradient(1px 1px at 35% 45%,rgba(255,255,255,0.1) 0%,transparent 100%),
+    radial-gradient(1px 1px at 60% 25%,rgba(255,255,255,0.12) 0%,transparent 100%),
+    radial-gradient(1px 1px at 80% 60%,rgba(255,255,255,0.08) 0%,transparent 100%),
+    radial-gradient(1px 1px at 25% 80%,rgba(255,255,255,0.1) 0%,transparent 100%),
+    radial-gradient(1px 1px at 70% 90%,rgba(255,255,255,0.06) 0%,transparent 100%);
+}
+
+/* ── TOP BAR ── */
+.top-bar{
+  position:relative;z-index:100;
+  background:linear-gradient(90deg,var(--red) 0%,#b91c1c 100%);
+  text-align:center;
+  padding:8px 1rem;
+  font-size:0.78rem;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#fff;
+}
+.top-bar span{opacity:0.75;font-weight:400;letter-spacing:0;}
+
+/* ── HEADER ── */
+header{
+  position:sticky;top:0;z-index:90;
+  background:rgba(8,6,15,0.93);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+  transition:box-shadow 0.3s;
+}
+header.scrolled{box-shadow:0 4px 40px rgba(0,0,0,0.6);}
+
+.nav{
+  max-width:1440px;margin:0 auto;
+  padding:0 clamp(1rem,4vw,3rem);
+  height:70px;
+  display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
+}
+
+.logo-wrap{
+  display:flex;align-items:center;gap:0.75rem;
+  text-decoration:none;flex-shrink:0;
+}
+.logo-icon{width:42px;height:42px;flex-shrink:0;}
+.logo-text{
+  font-family:var(--H);font-weight:800;
+  font-size:1.6rem;letter-spacing:1px;
+  color:var(--text);line-height:1;
+}
+.logo-text em{font-style:normal;color:var(--amber);}
+.logo-sub{
+  font-family:var(--B);font-size:0.6rem;letter-spacing:3px;
+  text-transform:uppercase;color:var(--text-dim);
+  display:block;margin-top:2px;
+}
+
+.nav-right{display:flex;align-items:center;gap:1.5rem;}
+.nav-link{
+  font-size:0.82rem;font-weight:700;letter-spacing:1px;
+  text-transform:uppercase;color:var(--text-dim);
+  text-decoration:none;transition:color 0.2s;
+}
+.nav-link:hover{color:var(--text);}
+.nav-badge{
+  background:var(--border);border:1px solid var(--border-bright);
+  border-radius:6px;padding:5px 12px;
+  font-size:0.72rem;font-weight:700;letter-spacing:1px;color:var(--text-dim);
+}
+#nav-updated{font-size:0.7rem;color:var(--text-muted);text-align:right;}
+#nav-updated strong{display:block;color:var(--amber);font-size:0.78rem;}
+
+/* ── HERO ── */
+.hero{
+  position:relative;z-index:5;
+  padding:clamp(3rem,8vw,6rem) clamp(1rem,5vw,3rem) clamp(2rem,5vw,3rem);
+  text-align:center;overflow:hidden;
+}
+
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:0.5rem;
+  background:rgba(245,158,11,0.1);
+  border:1px solid rgba(245,158,11,0.3);
+  border-radius:50px;padding:6px 16px;
+  font-size:0.72rem;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--amber-light);
+  margin-bottom:1.5rem;
+  animation:fadeDown 0.6s ease both;
+}
+.hero-eyebrow::before{
+  content:'';width:6px;height:6px;border-radius:50%;
+  background:var(--amber);animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.4)}}
+
+.hero h1{
+  font-family:var(--H);font-weight:800;
+  font-size:clamp(3rem,9vw,7rem);
+  letter-spacing:2px;line-height:0.9;
+  margin-bottom:1.2rem;
+  animation:fadeUp 0.7s 0.1s ease both;
+}
+.hero h1 .line-a{display:block;color:var(--text);}
+.hero h1 .line-b{
+  display:block;
+  background:linear-gradient(90deg,var(--amber) 0%,var(--gold) 40%,var(--red-light) 80%,var(--amber) 100%);
+  background-size:300%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 5s linear infinite;
+}
+@keyframes shimmer{from{background-position:300% center}to{background-position:0% center}}
+
+.hero-desc{
+  font-size:clamp(1rem,2vw,1.15rem);color:var(--text-dim);
+  max-width:560px;margin:0 auto 2.5rem;
+  animation:fadeUp 0.7s 0.2s ease both;
+}
+.hero-desc strong{color:var(--text);}
+
+.hero-stats{
+  display:flex;justify-content:center;gap:clamp(1.5rem,5vw,4rem);
+  animation:fadeUp 0.7s 0.3s ease both;
+}
+.hstat-val{
+  font-family:var(--H);font-weight:800;
+  font-size:clamp(1.8rem,4vw,2.8rem);
+  color:var(--amber);line-height:1;
+}
+.hstat-lbl{
+  font-size:0.68rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text-muted);margin-top:4px;
+}
+
+/* ── FILTER BAR ── */
+.filter-section{
+  position:sticky;top:70px;z-index:80;
+  background:rgba(8,6,15,0.97);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border);
+}
+.filter-inner{
+  max-width:1440px;margin:0 auto;
+  padding:0.8rem clamp(1rem,4vw,3rem);
+  display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;
+}
+.filter-label{
+  font-size:0.68rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--text-muted);white-space:nowrap;margin-right:0.25rem;
+  font-family:var(--H);font-weight:600;
+}
+.fbtn{
+  font-family:var(--B);font-size:0.78rem;font-weight:700;
+  padding:5px 14px;border-radius:50px;
+  border:1px solid var(--border);background:transparent;color:var(--text-dim);
+  cursor:pointer;white-space:nowrap;transition:all 0.18s;
+}
+.fbtn:hover{border-color:var(--amber);color:var(--amber-light);}
+.fbtn.on{background:var(--amber);border-color:var(--amber);color:#08060f;}
+
+/* ── SECTION HEADER ── */
+.section-header{
+  max-width:1440px;margin:0 auto;
+  padding:2rem clamp(1rem,4vw,3rem) 1rem;
+  display:flex;align-items:baseline;justify-content:space-between;gap:1rem;
+}
+.section-title{
+  font-family:var(--H);font-weight:700;
+  font-size:1.1rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);
+}
+#count-label{font-size:0.78rem;color:var(--text-muted);}
+
+/* ── GRID ── */
+.grid-outer{
+  max-width:1440px;margin:0 auto;
+  padding:0 clamp(1rem,4vw,3rem) 6rem;
+}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+  gap:1.25rem;
+}
+
+/* ── CARD ── */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;display:flex;flex-direction:column;
+  position:relative;
+  transition:transform 0.25s cubic-bezier(.34,1.56,.64,1),border-color 0.2s,box-shadow 0.25s;
+  animation:cardIn 0.4s ease both;
+}
+.card:hover{
+  transform:translateY(-6px) scale(1.01);
+  border-color:var(--amber);
+  box-shadow:0 20px 60px rgba(245,158,11,0.2);
+  background:var(--card-hover);
+}
+@keyframes cardIn{
+  from{opacity:0;transform:translateY(24px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+.card-rank{
+  position:absolute;top:12px;left:12px;z-index:2;
+  background:var(--amber);color:#08060f;
+  border-radius:6px;
+  font-family:var(--H);font-weight:800;
+  font-size:0.82rem;letter-spacing:1px;
+  padding:3px 9px;
+}
+.card-sale{
+  position:absolute;top:12px;right:12px;z-index:2;
+  background:var(--red);
+  border-radius:5px;
+  font-size:0.65rem;font-weight:700;letter-spacing:1px;
+  color:#fff;padding:3px 8px;text-transform:uppercase;
+}
+
+.card-img{
+  width:100%;aspect-ratio:1;
+  background:linear-gradient(135deg,#0e0818 0%,#150d24 100%);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;border-bottom:1px solid var(--border);
+}
+.card-img img{
+  width:72%;height:72%;object-fit:contain;
+  transition:transform 0.35s cubic-bezier(.34,1.56,.64,1);
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,0.5));
+}
+.card:hover .card-img img{transform:scale(1.1) translateY(-4px);}
+.card-img .placeholder{font-size:3rem;color:var(--border);}
+
+.card-body{
+  padding:1.1rem;flex:1;display:flex;flex-direction:column;gap:0.5rem;
+}
+.card-cat{
+  font-size:0.65rem;font-weight:700;letter-spacing:2px;
+  text-transform:uppercase;color:var(--amber);
+  font-family:var(--H);
+}
+.card-title{
+  font-size:0.9rem;font-weight:600;line-height:1.4;
+  color:var(--text);flex:1;
+}
+.card-rating{
+  display:flex;align-items:center;gap:0.4rem;
+  font-size:0.78rem;color:var(--text-dim);
+}
+.stars-wrap{display:flex;gap:1px;}
+.star{
+  width:12px;height:12px;
+  clip-path:polygon(50% 0%,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);
+}
+.star.full{background:var(--gold);}
+.star.half{background:linear-gradient(90deg,var(--gold) 50%,#332 50%);}
+.star.empty{background:var(--border-bright);}
+
+.card-price-row{
+  display:flex;align-items:baseline;gap:0.6rem;flex-wrap:wrap;
+  margin-top:auto;padding-top:0.4rem;border-top:1px solid var(--border);
+}
+.price-now{
+  font-family:var(--H);font-weight:800;
+  font-size:1.65rem;letter-spacing:0.5px;color:var(--text);
+}
+.price-was{font-size:0.82rem;color:var(--text-muted);text-decoration:line-through;}
+.price-save{font-size:0.72rem;font-weight:700;color:#4ade80;letter-spacing:0.5px;}
+
+.card-cta{
+  display:flex;align-items:center;justify-content:center;gap:0.5rem;
+  margin-top:0.8rem;
+  background:var(--amber);color:#08060f;
+  font-weight:700;font-size:0.85rem;letter-spacing:0.5px;
+  padding:0.7rem 1rem;border-radius:9px;
+  text-decoration:none;
+  transition:background 0.18s,transform 0.15s,box-shadow 0.18s;
+}
+.card-cta:hover{
+  background:var(--amber-light);transform:scale(1.02);
+  box-shadow:0 6px 24px rgba(245,158,11,0.4);
+}
+.cta-arrow{font-size:1rem;transition:transform 0.2s;}
+.card-cta:hover .cta-arrow{transform:translateX(3px);}
+
+/* ── STATES ── */
+.state-box{
+  grid-column:1/-1;text-align:center;
+  padding:5rem 1rem;color:var(--text-muted);
+}
+.loader{
+  width:44px;height:44px;margin:0 auto 1.2rem;
+  border:3px solid var(--border);border-top-color:var(--amber);
+  border-radius:50%;animation:spin 0.8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ── FOOTER ── */
+footer{
+  position:relative;z-index:5;
+  border-top:1px solid var(--border);background:var(--surface);
+}
+.footer-inner{
+  max-width:1440px;margin:0 auto;
+  padding:2.5rem clamp(1rem,4vw,3rem);
+  display:grid;grid-template-columns:1fr auto;gap:2rem;align-items:center;
+}
+.footer-brand{
+  font-family:var(--H);font-weight:800;font-size:1.3rem;
+  letter-spacing:1px;color:var(--text);
+}
+.footer-brand em{font-style:normal;color:var(--amber);}
+.footer-desc{font-size:0.78rem;color:var(--text-muted);margin-top:4px;line-height:1.6;}
+.footer-links{
+  display:flex;gap:1.2rem;flex-wrap:wrap;justify-content:flex-end;font-size:0.75rem;
+}
+.footer-links a{color:var(--text-dim);text-decoration:none;transition:color 0.2s;}
+.footer-links a:hover{color:var(--text);}
+.footer-bottom{
+  border-top:1px solid var(--border);
+  padding:1rem clamp(1rem,4vw,3rem);
+  text-align:center;font-size:0.72rem;color:var(--text-muted);line-height:1.8;
+  max-width:1440px;margin:0 auto;
+}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:640px){
+  .grid{grid-template-columns:1fr 1fr;gap:0.75rem;}
+  .card-body{padding:0.8rem;}
+  .price-now{font-size:1.3rem;}
+  .footer-inner{grid-template-columns:1fr;text-align:center;}
+  .footer-links{justify-content:center;}
+  #nav-updated{display:none;}
+}
+@media(max-width:380px){
+  .grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-layer"></div>
+<div class="bg-stars"></div>
+
+<div class="top-bar">
+  🇺🇸 Updated every morning &nbsp;<span>— Amazon US best sellers, one expert pick per category</span>
+</div>
+
+<header id="main-header">
+  <nav class="nav">
+    <a class="logo-wrap" href="/">
+      <svg class="logo-icon" viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="42" height="42" rx="10" fill="#f59e0b"/>
+        <text x="4" y="17" font-family="'Barlow Condensed',sans-serif" font-weight="800" font-size="12" fill="#08060f" letter-spacing="0.5">TOP</text>
+        <text x="3" y="31" font-family="'Barlow Condensed',sans-serif" font-weight="800" font-size="16" fill="#08060f" letter-spacing="-0.5">50</text>
+        <circle cx="33" cy="10" r="2" fill="rgba(8,6,15,0.4)"/>
+        <circle cx="38" cy="14" r="1.5" fill="rgba(8,6,15,0.3)"/>
+        <circle cx="30" cy="16" r="1" fill="rgba(8,6,15,0.25)"/>
+      </svg>
+      <div>
+        <div class="logo-text">Top<em>50</em>USA</div>
+        <span class="logo-sub">Daily Best Sellers</span>
+      </div>
+    </a>
+
+    <div class="nav-right">
+      <a class="nav-link" href="https://top50uk.com">🇬🇧 UK Site</a>
+      <div class="nav-badge">🇺🇸 USA</div>
+      <div id="nav-updated">Updated<strong id="update-stamp">—</strong></div>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow">Live Daily Updates</div>
+  <h1>
+    <span class="line-a">BEST SELLERS</span>
+    <span class="line-b">UNITED STATES</span>
+  </h1>
+  <p class="hero-desc">
+    <strong>50 hand-picked Amazon US products</strong> — the highest-rated, best-selling item from every major category. Refreshed every morning at 6am.
+  </p>
+  <div class="hero-stats">
+    <div class="hstat">
+      <div class="hstat-val" id="stat-products">—</div>
+      <div class="hstat-lbl">Products</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val" id="stat-cats">—</div>
+      <div class="hstat-lbl">Categories</div>
+    </div>
+    <div class="hstat">
+      <div class="hstat-val">Daily</div>
+      <div class="hstat-lbl">Updates</div>
+    </div>
+  </div>
+</section>
+
+<div class="filter-section">
+  <div class="filter-inner" id="filter-bar">
+    <span class="filter-label">Browse:</span>
+    <button class="fbtn on" onclick="filterBy('all',this)">All</button>
+  </div>
+</div>
+
+<div class="section-header">
+  <div class="section-title">Today's Picks</div>
+  <div id="count-label"></div>
+</div>
+
+<div class="grid-outer">
+  <div class="grid" id="grid">
+    <div class="state-box"><div class="loader"></div><p>Loading today's best sellers…</p></div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Top<em>50</em>USA</div>
+      <div class="footer-desc">Daily curated Amazon US best sellers. One expert pick per category, updated every morning.</div>
+    </div>
+    <div class="footer-links">
+      <a href="https://top50uk.com">🇬🇧 Top50UK</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="disclaimer.html">Disclaimer</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span id="fyear"></span> Top50USA.com &nbsp;·&nbsp;
+    As an Amazon Associate we earn from qualifying purchases. &nbsp;·&nbsp;
+    Product prices and availability are accurate as of the date/time of the daily update.
+  </div>
+</footer>
+
+<script>
+const FEED = "deals_us.json";
+let all = [], cat = "all";
+document.getElementById("fyear").textContent = "© " + new Date().getFullYear();
+window.addEventListener("scroll", () => {
+  document.getElementById("main-header").classList.toggle("scrolled", scrollY > 10);
+});
+load();
+
+async function load() {
+  try {
+    const r = await fetch(FEED + "?v=" + Date.now());
+    if (!r.ok) throw 0;
+    const d = await r.json();
+    all = d.deals || [];
+    document.getElementById("update-stamp").textContent = d.updated || "—";
+    document.getElementById("stat-products").textContent = all.length;
+    const cats = [...new Set(all.map(x => x.category).filter(Boolean))];
+    document.getElementById("stat-cats").textContent = cats.length;
+    buildFilters(cats);
+    render(all);
+  } catch(e) {
+    document.getElementById("grid").innerHTML =
+      `<div class="state-box"><p>⚠️ Could not load products. Please check back soon.</p></div>`;
+  }
+}
+
+function buildFilters(cats) {
+  const bar = document.getElementById("filter-bar");
+  bar.innerHTML = `<span class="filter-label">Browse:</span>
+    <button class="fbtn on" onclick="filterBy('all',this)">All</button>`;
+  cats.forEach(c => {
+    const b = document.createElement("button");
+    b.className = "fbtn"; b.textContent = c;
+    b.onclick = () => filterBy(c, b);
+    bar.appendChild(b);
+  });
+}
+function filterBy(c, btn) {
+  cat = c;
+  document.querySelectorAll(".fbtn").forEach(b => b.classList.remove("on"));
+  btn.classList.add("on");
+  const list = c === "all" ? all : all.filter(d => d.category === c);
+  render(list);
+}
+function render(deals) {
+  const g = document.getElementById("grid");
+  document.getElementById("count-label").textContent = deals.length + " products";
+  if (!deals.length) { g.innerHTML = `<div class="state-box"><p>No products in this category.</p></div>`; return; }
+  g.innerHTML = deals.map((d, i) => {
+    const imgHtml = d.image
+      ? `<img src="${x(d.image)}" alt="${x(d.title)}" loading="lazy" onerror="this.parentElement.innerHTML='<span class=placeholder>📦</span>'">`
+      : `<span class="placeholder">📦</span>`;
+    const ratingInt = Math.round((d.rating || 0) * 2) / 2;
+    const starsHtml = [1,2,3,4,5].map(n => {
+      if (ratingInt >= n) return `<span class="star full"></span>`;
+      if (ratingInt >= n - 0.5) return `<span class="star half"></span>`;
+      return `<span class="star empty"></span>`;
+    }).join("");
+    const wasHtml = d.was_price
+      ? `<span class="price-was">${x(d.was_price)}</span><span class="price-save">Save ${calcSave(d.price,d.was_price)}</span>` : "";
+    const saleHtml = d.was_price ? `<span class="card-sale">Sale</span>` : "";
+    return `
+    <article class="card" style="animation-delay:${Math.min(i*0.045,0.8)}s">
+      <div class="card-img">
+        <span class="card-rank">#${i+1}</span>${saleHtml}${imgHtml}
+      </div>
+      <div class="card-body">
+        <div class="card-cat">${x(d.category||"")}</div>
+        <div class="card-title">${x(d.title)}</div>
+        <div class="card-rating"><div class="stars-wrap">${starsHtml}</div><span>${(d.rating||0).toFixed(1)} · ${fmtN(d.reviews)} reviews</span></div>
+        <div class="card-price-row"><span class="price-now">${x(d.price)}</span>${wasHtml}</div>
+        <a class="card-cta" href="${x(d.url)}" target="_blank" rel="noopener sponsored">View on Amazon <span class="cta-arrow">→</span></a>
+      </div>
+    </article>`;
+  }).join("");
+}
+function x(s){return String(s||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function fmtN(n){return n>=1000?(n/1000).toFixed(1)+"k":String(n||0);}
+function calcSave(now,was){
+  try{const n=parseFloat(String(now).replace(/[^0-9.]/g,"")),w=parseFloat(String(was).replace(/[^0-9.]/g,""));
+  if(n&&w&&w>n)return Math.round(((w-n)/w)*100)+"%";}catch(e){}return "";
+}
+</script>
+</body>
+</html>
