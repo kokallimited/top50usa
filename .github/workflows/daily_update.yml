@@ -1,0 +1,60 @@
+name: Daily Deal Update
+
+# ── WHEN TO RUN ────────────────────────────────────────────────────────────────
+on:
+  schedule:
+    - cron: "0 6 * * *"   # Every day at 06:00 UTC (7am UK summer, 6am winter)
+  workflow_dispatch:       # Also lets you click "Run workflow" manually in GitHub
+
+# ── PERMISSIONS ────────────────────────────────────────────────────────────────
+permissions:
+  contents: write          # Allows the action to commit deals JSON back to repo
+
+# ── JOB ───────────────────────────────────────────────────────────────────────
+jobs:
+  update-deals:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      # 1. Download your repo files onto the runner
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Install Python 3.11
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # 3. Install the only dependency (requests)
+      - name: Install dependencies
+        run: pip install requests
+
+      # 4. Run the fetcher for UK
+      #    Secrets are injected here — never visible in logs
+      - name: Fetch UK deals
+        env:
+          KEEPA_API_KEY:        ${{ secrets.KEEPA_API_KEY }}
+          AMAZON_AFFILIATE_TAG: ${{ secrets.AMAZON_TAG_UK }}
+          SITE: uk
+        run: python keepa_fetcher.py
+
+      # 5. Run the fetcher for USA
+      - name: Fetch US deals
+        env:
+          KEEPA_API_KEY:        ${{ secrets.KEEPA_API_KEY }}
+          AMAZON_AFFILIATE_TAG: ${{ secrets.AMAZON_TAG_US }}
+          SITE: us
+        run: python keepa_fetcher.py
+
+      # 6. Commit the new JSON files and push them back to GitHub
+      - name: Commit and push updated deals
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add deals_uk.json deals_us.json
+          # Only commit if something actually changed
+          git diff --staged --quiet || \
+            git commit -m "chore: daily deal update $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git push
