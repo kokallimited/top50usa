@@ -2,8 +2,8 @@ name: Daily Deal Update
 
 on:
   schedule:
-    - cron: "0 5 * * *"   # 5am UTC daily — gives time to finish before morning traffic
-  workflow_dispatch:       # Manual trigger button in GitHub UI
+    - cron: "0 5 * * *"   # 5am UTC daily
+  workflow_dispatch:       # Manual trigger
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -12,48 +12,57 @@ permissions:
   contents: write
 
 jobs:
-  update-deals:
+  # Run UK and USA as separate jobs so they run in parallel
+  # Each job uses its own token bank independently
+  # Total runtime: ~5 minutes (not 2 hours!)
+
+  update-uk:
     runs-on: ubuntu-latest
-    # Script sleeps 65s between each API call.
-    # 22 categories × 2 calls × 65s = ~48 min per site, 2 sites = ~96 min.
-    # Set timeout to 120 minutes to be safe.
-    timeout-minutes: 120
-
+    timeout-minutes: 30
     steps:
-
-      - name: Checkout repository
-        uses: actions/checkout@v4.2.2
-
-      - name: Set up Python
-        uses: actions/setup-python@v5.6.0
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-python@v5.6.0
         with:
           python-version: "3.11"
-
-      - name: Install dependencies
-        run: pip install requests
-
-      # Run UK first
+      - run: pip install requests
       - name: Fetch UK deals
         env:
           KEEPA_API_KEY:        ${{ secrets.KEEPA_API_KEY }}
           AMAZON_AFFILIATE_TAG: ${{ secrets.AMAZON_TAG_UK }}
           SITE: uk
         run: python keepa_fetcher.py
+      - name: Commit UK deals
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add deals_uk.json
+          git diff --staged --quiet || \
+            git commit -m "chore: UK deals $(date -u +'%Y-%m-%d')"
+          git push
 
-      # Run US second (tokens refill during UK run, so US starts with fresh tokens)
+  update-us:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    # Wait for UK job to finish first (avoids git push conflicts)
+    needs: update-uk
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-python@v5.6.0
+        with:
+          python-version: "3.11"
+      - run: pip install requests
       - name: Fetch US deals
         env:
           KEEPA_API_KEY:        ${{ secrets.KEEPA_API_KEY }}
           AMAZON_AFFILIATE_TAG: ${{ secrets.AMAZON_TAG_US }}
           SITE: us
         run: python keepa_fetcher.py
-
-      # Commit both JSON files back to the repo
-      - name: Commit and push updated deals
+      - name: Commit US deals
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add deals_uk.json deals_us.json
+          git pull --rebase   # pull UK changes first to avoid conflicts
+          git add deals_us.json
           git diff --staged --quiet || \
-            git commit -m "chore: daily deal update $(date -u +'%Y-%m-%d %H:%M UTC')"
+            git commit -m "chore: US deals $(date -u +'%Y-%m-%d')"
           git push
